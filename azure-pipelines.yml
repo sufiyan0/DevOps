@@ -1,0 +1,45 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  name: Landing  # Your self-hosted agent pool
+
+variables:
+  dockerImageName: 'nextjs-app'
+  containerName: 'nextjs-app-container'
+  hostPort: '3000'
+  containerPort: '3000'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      npm ci
+      npm run build
+    displayName: 'Install dependencies and build Next.js app'
+
+  - script: |
+      docker build -t $(dockerImageName):$(Build.BuildId) .
+    displayName: 'Build Docker image'
+
+  - task: PowerShell@2
+    displayName: 'Clean up existing container (if any)'
+    inputs:
+      targetType: 'inline'
+      script: |
+        if (docker ps -a --format "{{.Names}}" | Select-String -Pattern "$(containerName)") {
+          docker stop $(containerName)
+          docker rm $(containerName)
+        }
+
+  - script: |
+      docker run -d ^
+        --name $(containerName) ^
+        -p $(hostPort):$(containerPort) ^
+        $(dockerImageName):$(Build.BuildId)
+    displayName: 'Run Docker container on port $(hostPort)'
