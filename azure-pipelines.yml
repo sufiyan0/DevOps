@@ -4,7 +4,7 @@ trigger:
       - main
 
 pool:
-  name: Landing  # Your self-hosted agent pool
+  name: devops  # Your self-hosted agent pool
 
 variables:
   dockerImageName: 'nextjs-app'
