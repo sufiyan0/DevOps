@@ -1,34 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 Next.js App with Azure DevOps CI/CD Pipeline
 
-## Getting Started
 
-First, run the development server:
+## 📘 Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+This repository demonstrates the integration of a Next.js application with a Dockerized environment, automated builds, and deployments using Azure DevOps pipelines. The setup ensures consistent, repeatable, and scalable deployments, enhancing the development workflow.
+
+## 🧩 Technologies Used
+
+Next.js: A React framework for building server-side rendered applications.
+
+Docker: Containerization platform to package applications and their dependencies.
+
+Azure DevOps: CI/CD platform for automating build, test, and deployment pipelines.
+
+Node.js: JavaScript runtime for building the application.
+
+Nginx: Web server used to serve the Next.js application in production.
+
+## 🛠️ Project Structure
+```
+/my-nextjs-app
+├── .devcontainer/
+│   └── devcontainer.json
+├── .dockerignore
+├── Dockerfile
+├── azure-pipelines.yml
+├── package.json
+└── src/
+    ├── components/
+    ├── pages/
+    └── styles/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧪 Development Workflow
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Local Development: Utilize Visual Studio Code's Remote - Containers extension for a consistent development environment.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Dockerization: The application is containerized using a Dockerfile to ensure consistency across different environments.
 
-## Learn More
+CI/CD Pipeline: An Azure DevOps pipeline automates the build, test, and deployment processes.
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 How the DevOps Pipeline Works 🛠️
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Our pipeline automates these key steps:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. ⚙️ **Install Dependencies**  
+   - The pipeline installs Node.js and all necessary project dependencies.
 
-## Deploy on Vercel
+2. 🏗️ **Build the Next.js Application**  
+   - It compiles the app for production to optimize performance.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. 📦 **Build Docker Image**  
+   - Creates a Docker image tagged with the build ID to ensure versioning.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+4. 🚀 **Deploy Docker Container**  
+   - Stops and removes any existing container with the same name.  
+   - Runs a new container exposing port 3000 to serve the application.
+
+This automation ensures your app is always deployed fresh, consistent, and scalable. 🔄
+
+---
+
+## 🐳⚙️ How to Run Locally with Docker 🖥️
+
+To test the app locally, simply run:
+
+```bash
+docker build -t nextjs-app .
+docker run -d -p 3000:3000 nextjs-app
+🌐 Open your browser at http://localhost:3000 to see the app running.
+
+```
+
+## 📸 Pipeline Execution
+
+
+Example of a successful pipeline run.
+
+## 🚀 Deployment Process
+
+Code Commit: Changes pushed to the main branch trigger the pipeline.
+
+Build: The pipeline installs dependencies and builds the Next.js application.
+
+Docker Image Build: A Docker image is created from the application.
+
+Container Deployment: The existing container is stopped and removed, and a new container is started with the updated image.
+
+## 🔄 Continuous Integration & Deployment
+
+Continuous Integration (CI): Automates the process of integrating code changes from multiple contributors into a shared repository.
+
+Continuous Deployment (CD): Automates the release of new application versions to production, ensuring quick and reliable delivery.
